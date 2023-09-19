@@ -6,7 +6,8 @@ BEGIN
 	SELECT Id,
 		Nombre,
 		NumEmpleados,
-		Nivel
+		Nivel,
+		CompanyId
 	FROM Departamentos
 	WHERE CompanyId=@CompanyId
 END                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
