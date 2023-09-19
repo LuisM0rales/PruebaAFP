@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using PruebaAFP.API.DTOs.Companies;
 using PruebaAFP.API.DTOs.Departments;
 using PruebaAFP.API.DTOs.ResponseV1;
 using PruebaAFP.API.Interfaces;
@@ -20,14 +21,22 @@ namespace PruebaAFP.API.Services
         public ResponseWrapperDTO<DepartmentResponseDTO> Get(int id)
         {
 
-            var Companyres = _dbContext.Departamentos.FromSqlInterpolated($@"exec usp_api_getDeparmentsByCompanyId @CompanyId={id}");
+            var Companyres = _dbContext.Departamentos.FromSqlInterpolated($@"exec usp_api_getDeparmentsByCompanyId @CompanyId={id}")
+                .AsEnumerable().FirstOrDefault();
+
             ResponseWrapperDTO<DepartmentResponseDTO> response = new ResponseWrapperDTO<DepartmentResponseDTO>();
 
-            response.Data.Id = Companyres.SingleOrDefault().Id;
-            response.Data.Nombre = Companyres.SingleOrDefault().Nombre;
-            response.Data.NumEmpleados = Companyres.SingleOrDefault().NumEmpleados;
-            response.Data.Nivel = Companyres.SingleOrDefault().Nivel;
+            if (Companyres != null)
+            {
+                response.Data = new DepartmentResponseDTO()
+                {
+                    Id = Companyres.Id,
+                    Nombre = Companyres.Nombre,
+                    NumEmpleados = Companyres.NumEmpleados,
+                    Nivel = Companyres.Nivel
 
+                };
+            }
 
             return response;
         }

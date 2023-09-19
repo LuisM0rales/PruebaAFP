@@ -14,7 +14,7 @@ namespace PruebaAFP.API.DTOs.ResponseV1
 
         public ResponseWrapperDTO(T data)
         {
-            this.Data = data;
+            Data = data;
             Status = new GlobalStatusDTO();
         }
 

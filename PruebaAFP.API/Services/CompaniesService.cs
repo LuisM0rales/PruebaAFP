@@ -22,18 +22,24 @@ namespace PruebaAFP.API.Services
         {
 
             var Companyres = _dbContext.Companies.FromSqlInterpolated($@"exec usp_api_getCompanyById @CompanyId={id}")
-                .AsEnumerable();
-            ResponseWrapperDTO<CompanyResponseDTO> response = new ResponseWrapperDTO<CompanyResponseDTO>();
+                .AsEnumerable().FirstOrDefault();
 
-            response.Data.Id = Companyres.SingleOrDefault().Id;
-            response.Data.Nombre = Companyres.SingleOrDefault().Nombre;
-            response.Data.RazonSocial = Companyres.SingleOrDefault().RazonSocial;
-            response.Data.FechaRegistro = Companyres.SingleOrDefault().FechaRegistro;
-            response.Data.FechaCreacion = Companyres.SingleOrDefault().FechaCreacion;
-            response.Data.UsuarioCreo = Companyres.SingleOrDefault().UsuarioCreo;
-            response.Data.FechaModificacion = Companyres.SingleOrDefault().FechaModificacion;
-            response.Data.UsuarioModifico = Companyres.SingleOrDefault().UsuarioModifico;
+        ResponseWrapperDTO<CompanyResponseDTO> response = new ResponseWrapperDTO<CompanyResponseDTO>();
 
+            if(Companyres != null)
+            {
+                response.Data = new CompanyResponseDTO()
+                {
+                    Id = Companyres.Id,
+                    Nombre = Companyres.Nombre,
+                    RazonSocial = Companyres.RazonSocial,
+                    FechaRegistro = Companyres.FechaRegistro,
+                    FechaCreacion = Companyres.FechaCreacion,
+                    UsuarioCreo = Companyres.UsuarioCreo,
+                    FechaModificacion = Companyres.FechaModificacion,
+                    UsuarioModifico = Companyres.UsuarioModifico
+                };
+            }
 
             return response;
         }
